@@ -9,8 +9,9 @@ p2 = Player('black', 'shlomit')
 
 game = ConnectFour(p1, p2, 6, 7)
 
-while True:
+win = False
+while win == False:
 
     game.show_state()
     game.play_turn()
-    game.check_win()
+    win = game.check_win()

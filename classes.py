@@ -6,6 +6,9 @@ class Chip:
     def __init__(self, color):
         self.color = color
 
+    def __repr__(self):
+        return self.color
+
 
 class Player:
 
@@ -41,10 +44,9 @@ class ConnectFour:
         for i in range(self.num_cols):
             label = string.ascii_uppercase[i]
             self.board[label] = []
-            print(self.board)
 
     def play_turn(self):
-
+        global player
         if self.num_turns % 2 == 0:
             player = self.player_1
         else:
@@ -62,7 +64,33 @@ class ConnectFour:
             return True
 
     def show_state(self):
-        print(self.board)
+        # display column names
+        header = ''
+        for k in self.board.keys():
+            header += k
+        print(header)
+
+        # display column contents
+        for i in range(self.num_rows):
+            row_to_show = ''
+            for k in self.board.keys():
+                if len(self.board[k]) >= self.num_rows - i:
+                    chip = self.board[k][self.num_rows - i - 1]
+                    row_to_show += chip.color[0] # show 'r' or 'b'
+                else:
+                    row_to_show += ' '
+
+            print(row_to_show)
 
     def check_win(self):
-        pass
+
+        for k in self.board: # check for vertical win
+            acc = 0
+            for c in self.board[k]:
+                if c.color == player.color:
+                    acc +=1
+                if acc == 4:
+                    print('Connect Four!')
+                    return True
+
+            return False
