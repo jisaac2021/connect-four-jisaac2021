@@ -1,4 +1,3 @@
-
 import string
 
 class Chip:
@@ -53,17 +52,20 @@ class ConnectFour:
             player = self.player_2
 
         print('%s, it is your turn' % player.name)
+
         col = input('Choose a column: ')
 
         if len(self.board[col]) == self.num_rows:
             print('Column %s is full!' % col)
             return False
+
         else:
             self.board[col].append(player.play_chip())
             self.num_turns += 1
             return True
 
     def show_state(self):
+
         # display column names
         header = ''
         for k in self.board.keys():
@@ -77,6 +79,7 @@ class ConnectFour:
                 if len(self.board[k]) >= self.num_rows - i:
                     chip = self.board[k][self.num_rows - i - 1]
                     row_to_show += chip.color[0] # show 'r' or 'b'
+
                 else:
                     row_to_show += ' '
 
@@ -84,13 +87,20 @@ class ConnectFour:
 
     def check_win(self):
 
-        for k in self.board: # check for vertical win
-            acc = 0
-            for c in self.board[k]:
-                if c.color == player.color:
-                    acc +=1
-                if acc == 4:
-                    print('Connect Four!')
-                    return True
+        for k in self.board.keys(): # check for vertical win
+            if len(self.board[k]) > 0:
+                chip = self.board[k][0]
+                streak = 1
 
-            return False
+                for c in self.board[k][1:]:
+
+                    if c.color == chip.color:
+                        streak += 1
+                    else:
+                        streak = 1
+                        chip = c
+
+                    if streak == 4:
+                        print('Connect Four!')
+                        print('%s has won the game.' % player.name)
+                        return True
