@@ -87,14 +87,16 @@ class ConnectFour:
 
     def check_win(self):
 
+
         for k in self.board.keys(): # check for vertical win
+
             if len(self.board[k]) > 0:
                 chip = self.board[k][0]
                 streak = 1
 
                 for c in self.board[k][1:]:
 
-                    if c.color == chip.color:
+                    if c.color == player.color:
                         streak += 1
                     else:
                         streak = 1
@@ -104,3 +106,25 @@ class ConnectFour:
                         print('Connect Four!')
                         print('%s has won the game.' % player.name)
                         return True
+
+
+
+        for row in range(self.num_rows):  # check for horizantal win
+            prev_chip = None
+
+            for k in self.board.keys():
+
+                if len(self.board[k]) > row:
+                    chip = self.board[k][row].color
+
+                    if chip == prev_chip:
+                        streak += 1
+
+                    else:
+                        streak = 1
+                        prev_chip = chip
+
+                if streak == 4:
+                    print('Connect Four!')
+                    print('%s has won the game.' % player.name)
+                    return True
