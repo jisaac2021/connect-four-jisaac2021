@@ -65,7 +65,6 @@ class ConnectFour:
             return True
 
     def show_state(self):
-
         # display column names
         header = ''
         for k in self.board.keys():
@@ -87,17 +86,17 @@ class ConnectFour:
 
     def check_win(self):
 
-
         for k in self.board.keys(): # check for vertical win
 
             if len(self.board[k]) > 0:
-                chip = self.board[k][0]
+                chip = self.board[k][0].color
                 streak = 1
 
                 for c in self.board[k][1:]:
 
-                    if c.color == player.color:
+                    if chip == player.color:
                         streak += 1
+                        print(streak)
                     else:
                         streak = 1
                         chip = c
@@ -106,8 +105,6 @@ class ConnectFour:
                         print('Connect Four!')
                         print('%s has won the game.' % player.name)
                         return True
-
-
 
         for row in range(self.num_rows):  # check for horizantal win
             prev_chip = None
@@ -119,6 +116,7 @@ class ConnectFour:
 
                     if chip == prev_chip:
                         streak += 1
+                        print(streak)
 
                     else:
                         streak = 1
@@ -128,3 +126,25 @@ class ConnectFour:
                     print('Connect Four!')
                     print('%s has won the game.' % player.name)
                     return True
+
+        for k in self.board.keys(): # check for diagonal win
+            prev_chip = None
+
+            for row in range(self.num_rows):
+
+                if len(self.board[k]) > row:
+                    chip = self.board[k][row].color
+                    print(chip)
+                    streak = 1
+
+                    if chip == prev_chip:
+                        streak += 1
+
+                    else:
+                        streak = 1
+                        prev_chip = chip
+
+            if streak == 4:
+                print('Connect Four!')
+                print('%s has won the game.' % player.name)
+                return True
