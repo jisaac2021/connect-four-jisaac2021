@@ -89,20 +89,20 @@ class ConnectFour:
         for k in self.board.keys(): # check for vertical win
 
             if len(self.board[k]) > 0:
-                chip = self.board[k][0].color
                 streak = 1
 
                 for c in self.board[k][1:]:
+                    chip = self.board[k][0]
 
-                    if chip == player.color:
+                    if c.color == chip.color:
                         streak += 1
-                        print(streak)
+
                     else:
                         streak = 1
                         chip = c
 
                     if streak == 4:
-                        print('Connect Four!')
+                        print('Vertical Connect Four!')
                         print('%s has won the game.' % player.name)
                         return True
 
@@ -112,39 +112,33 @@ class ConnectFour:
             for k in self.board.keys():
 
                 if len(self.board[k]) > row:
+
                     chip = self.board[k][row].color
 
                     if chip == prev_chip:
                         streak += 1
-                        print(streak)
 
                     else:
                         streak = 1
                         prev_chip = chip
 
                 if streak == 4:
-                    print('Connect Four!')
+                    print('Horizantal Connect Four!')
                     print('%s has won the game.' % player.name)
                     return True
 
-        for k in self.board.keys(): # check for diagonal win
+        d = {}
+        keys = list(self.board.keys())
+        print(keys)
+        print(self.board)
+        for i in range(len(keys)):
             prev_chip = None
+            for j in range(self.num_rows):
+                if (i+j) in d:
+                    d[i+j].append((keys[i],j))
+                else:
+                    d[i+j] = [(keys[i],j)]
 
-            for row in range(self.num_rows):
 
-                if len(self.board[k]) > row:
-                    chip = self.board[k][row].color
-                    print(chip)
-                    streak = 1
 
-                    if chip == prev_chip:
-                        streak += 1
-
-                    else:
-                        streak = 1
-                        prev_chip = chip
-
-            if streak == 4:
-                print('Connect Four!')
-                print('%s has won the game.' % player.name)
-                return True
+        print(d)
